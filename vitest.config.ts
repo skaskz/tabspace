@@ -10,7 +10,7 @@ export default defineConfig({
     globals: true,
     setupFiles: ['tests/setup.ts'],
     // Coverage instrumentation slows code 2-3x; timing budgets in tests scale by this factor.
-    env: { TS_PERF_SLACK: process.argv.includes('--coverage') ? '3' : '1' },
+    env: { TS_PERF_SLACK: process.env.TS_PERF_SLACK ?? (process.argv.includes('--coverage') ? '3' : '1') },
     include: ['tests/unit/**/*.test.{ts,tsx}', 'tests/integration/**/*.test.{ts,tsx}', 'tests/security/**/*.test.{ts,tsx}'],
     coverage: {
       provider: 'v8',
