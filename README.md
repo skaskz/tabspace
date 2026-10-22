@@ -19,6 +19,7 @@
   <a href="#features">Features</a> ·
   <a href="#screenshots">Screenshots</a> ·
   <a href="#install">Install</a> ·
+  <a href="#how-to-use">How to use</a> ·
   <a href="#updating">Updating</a> ·
   <a href="docs/USER_GUIDE.md">User guide</a> ·
   <a href="#development">Development</a> ·
@@ -109,6 +110,18 @@ Requires Google Chrome 116 or newer (or another Chromium browser).
 
 Want the matching dark Chrome theme? Load `tabspace-theme-<version>.zip` the same way. See the
 [user guide](docs/USER_GUIDE.md) for shortcuts, the Tabspace Bar, tab groups and integrations.
+
+## How to use
+
+1. **Start.** Open a new tab, or click the Tabspace icon and choose **Open Dashboard**. On first run, pick **Load example data** to look around, or **Start fresh**.
+2. **Make a workspace.** Go to **Workspaces → New workspace**, name it (e.g. *Job Search*), then **Save current window…** and tick the tabs to keep. Opening the workspace later brings those tabs back as one Chrome tab group.
+3. **Tame your tabs.** The **Tabs** page lists every open tab across windows. Search, group, pin, move or close them, and save sessions to restore later.
+4. **Capture tasks and notes.** Add tasks from the dashboard or New Tab, and write notes on the **Notes** page. On any website, press <kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>N</kbd> for a Quick Note, or <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>S</kbd> to open the sidebar.
+5. **Focus.** Press play on the Focus card (New Tab, dashboard or toolbar popup). The pinned icon counts down the minutes, and a chime plays when the session ends.
+6. **Make it yours.** Click **Customize** on the New Tab to move or hide sections, and see **Settings** for theme, motion, the Tabspace Bar and integrations.
+7. **Back up.** **Settings → Data & Backup → Export** saves everything to a JSON file you can import on another computer.
+
+Press <kbd>Ctrl</kbd>/<kbd>⌘</kbd>+<kbd>K</kbd> on any Tabspace page to search tabs, workspaces, notes and bookmarks.
 
 ## Updating
 
