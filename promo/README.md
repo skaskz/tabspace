@@ -1,7 +1,7 @@
 # Tabspace promo video
 
 The [Remotion](https://www.remotion.dev) project behind the 50-second Tabspace tour
-([watch it](../docs/media/tabspace-promo.mp4)). Everything is code: scenes are React components, and the music and sound
+([watch it](https://cdn.jsdelivr.net/gh/skaskz/tabspace@main/docs/media/tabspace-promo.mp4)). Everything is code: scenes are React components, and the music and sound
 effects are synthesized by a Node script, so there are no third-party audio licences.
 
 ## Render it

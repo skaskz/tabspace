@@ -29,11 +29,11 @@
 <br/>
 
 <p align="center">
-  <a href="docs/media/tabspace-promo.mp4">
+  <a href="https://cdn.jsdelivr.net/gh/skaskz/tabspace@main/docs/media/tabspace-promo.mp4">
     <img src="docs/media/preview.gif" alt="Tabspace in motion — click to watch the full 50-second tour" width="800" />
   </a>
   <br/>
-  <sub>▶ <a href="docs/media/tabspace-promo.mp4">Watch the full 50-second tour</a> (MP4, with sound)</sub>
+  <sub>▶ <a href="https://cdn.jsdelivr.net/gh/skaskz/tabspace@main/docs/media/tabspace-promo.mp4">Watch the full 50-second tour</a> (MP4, with sound)</sub>
 </p>
 
 ## Features
