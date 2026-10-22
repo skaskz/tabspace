@@ -1,0 +1,451 @@
+@import 'tailwindcss';
+@import '@fontsource-variable/inter';
+
+/*
+ * Tabspace design tokens — "Black & White Deep Space".
+ * Colours are CSS variables so the light theme is a token swap, and Tailwind
+ * utilities (bg-surface, text-muted, border-line…) map onto them.
+ */
+@theme {
+  /* Tailwind's built-in `transition` utilities use the same timing as the Tabspace motion system. */
+  --default-transition-duration: 180ms;
+  --default-transition-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --color-bg: var(--ts-bg);
+  --color-surface: var(--ts-surface);
+  --color-surface-2: var(--ts-surface-2);
+  --color-surface-3: var(--ts-surface-3);
+  --color-line: var(--ts-line);
+  --color-line-strong: var(--ts-line-strong);
+  --color-fg: var(--ts-fg);
+  --color-muted: var(--ts-muted);
+  --color-faint: var(--ts-faint);
+  --color-glow: var(--ts-glow);
+  --color-danger: var(--ts-danger);
+  --color-success: var(--ts-success);
+  --color-warn: var(--ts-warn);
+  --color-info: var(--ts-info);
+  --radius-card: 14px;
+  --radius-ctl: 10px;
+}
+
+:root,
+[data-theme='dark'] {
+  color-scheme: dark;
+  --ts-bg: #050505;
+  --ts-surface: rgba(14, 14, 15, 0.92);
+  --ts-surface-2: rgba(24, 24, 26, 0.94);
+  --ts-surface-3: rgba(38, 38, 41, 0.92);
+  --ts-line: rgba(255, 255, 255, 0.09);
+  --ts-line-strong: rgba(255, 255, 255, 0.22);
+  --ts-fg: #f5f5f5;
+  --ts-muted: #a1a1a6;
+  --ts-faint: #8e8e93;
+  --ts-glow: rgba(255, 255, 255, 0.08);
+  --ts-danger: #f87171;
+  --ts-success: #4ade80;
+  --ts-warn: #facc15;
+  --ts-info: #93c5fd;
+  --ts-star: #ffffff;
+}
+
+[data-theme='light'] {
+  color-scheme: light;
+  --ts-bg: #f4f4f5;
+  --ts-surface: rgba(255, 255, 255, 0.9);
+  --ts-surface-2: rgba(244, 244, 245, 0.95);
+  --ts-surface-3: rgba(228, 228, 231, 0.95);
+  --ts-line: rgba(0, 0, 0, 0.14);
+  --ts-line-strong: rgba(0, 0, 0, 0.24);
+  --ts-fg: #0a0a0a;
+  --ts-muted: #52525b;
+  --ts-faint: #71717a;
+  --ts-glow: rgba(0, 0, 0, 0.05);
+  --ts-danger: #dc2626;
+  --ts-success: #16a34a;
+  --ts-warn: #ca8a04;
+  --ts-info: #2563eb;
+  --ts-star: #18181b;
+}
+
+html {
+  font-size: 15px;
+}
+html[data-text='sm'] {
+  font-size: 14px;
+}
+html[data-text='lg'] {
+  font-size: 16.5px;
+}
+
+body {
+  margin: 0;
+  background: var(--ts-bg);
+  color: var(--ts-fg);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.14) transparent;
+}
+[data-theme='light'] * {
+  scrollbar-color: rgba(0, 0, 0, 0.18) transparent;
+}
+
+::selection {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+@layer base {
+  :focus-visible {
+    outline: 2px solid var(--ts-fg);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+}
+
+/* Cards: rounded, thin border, faint glass. */
+.ts-card {
+  background: var(--ts-surface);
+  border: 1px solid var(--ts-line);
+  border-radius: var(--radius-card);
+  backdrop-filter: blur(10px);
+}
+
+/* Active / selected silver illumination. */
+.ts-active {
+  border-color: var(--ts-line-strong) !important;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.03));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 0 18px rgba(255, 255, 255, 0.05);
+}
+[data-theme='light'] .ts-active {
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.02));
+}
+
+.ts-hover {
+  transition:
+    background-color 120ms ease,
+    border-color 120ms ease;
+}
+.ts-hover:hover {
+  background-color: var(--ts-glow);
+  border-color: var(--ts-line-strong);
+}
+
+[data-density='compact'] .ts-pad {
+  padding: 0.75rem !important;
+}
+
+/* ------------------------------------------------------------------ */
+/* Motion system                                                       */
+/* ------------------------------------------------------------------ */
+/*
+ * One easing, four durations. Components opt in with classes:
+ *   .ts-lift        interactive card hover (lift + deeper shadow + silver border)
+ *   .ts-press       buttons: smooth colour transition + pressed scale
+ *   .ts-nav-item    left-nav links: smooth active-state transition
+ *   .ts-page-in     page enter (fade + 4px rise)
+ *   .ts-dialog-in/-out, .ts-backdrop-in/-out, .ts-menu-in/-out, .ts-toast-in/-out  overlay enter/exit
+ *   .ts-fade-in     generic small enter (kept for existing callers)
+ * Exit keyframes end in "-out" so `waitForExit()` (src/components/ui/motion.ts) can await them.
+ * Reduced motion (OS setting or <html data-motion="reduced">) = no transforms, effectively instant.
+ */
+:root {
+  --ts-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ts-ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ts-dur-hover: 180ms;
+  --ts-dur-dropdown: 150ms;
+  --ts-dur-dialog: 240ms;
+  --ts-dur-page: 200ms;
+  --ts-dur-toast: 200ms;
+  --ts-lift-shadow: 0 14px 34px -14px rgba(0, 0, 0, 0.85), 0 0 0 1px rgba(255, 255, 255, 0.03), 0 0 22px rgba(255, 255, 255, 0.04);
+}
+[data-theme='light'] {
+  --ts-lift-shadow: 0 12px 28px -14px rgba(0, 0, 0, 0.28), 0 2px 6px -2px rgba(0, 0, 0, 0.08);
+}
+
+@keyframes ts-fade {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes ts-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes ts-rise {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+}
+@keyframes ts-dialog {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.96);
+  }
+}
+@keyframes ts-dialog-out {
+  to {
+    opacity: 0;
+    transform: translateY(6px) scale(0.96);
+  }
+}
+@keyframes ts-menu {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+@keyframes ts-menu-out {
+  to {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+@keyframes ts-toast {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+  }
+}
+@keyframes ts-toast-out {
+  to {
+    opacity: 0;
+    transform: translateY(6px) scale(0.98);
+  }
+}
+@keyframes ts-twinkle {
+  0%,
+  100% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 0.95;
+  }
+}
+
+.ts-fade-in {
+  animation: ts-rise var(--ts-dur-hover) var(--ts-ease) backwards;
+}
+.ts-page-in {
+  animation: ts-rise var(--ts-dur-page) var(--ts-ease) backwards;
+}
+.ts-fallback {
+  animation: ts-fade var(--ts-dur-page) var(--ts-ease) 300ms backwards;
+}
+.ts-backdrop-in {
+  animation: ts-fade var(--ts-dur-dialog) var(--ts-ease) backwards;
+}
+.ts-backdrop-out {
+  animation: ts-fade-out calc(var(--ts-dur-dialog) * 0.8) var(--ts-ease-in) forwards;
+  pointer-events: none;
+}
+.ts-dialog-in {
+  animation: ts-dialog var(--ts-dur-dialog) var(--ts-ease) backwards;
+}
+.ts-dialog-out {
+  animation: ts-dialog-out calc(var(--ts-dur-dialog) * 0.8) var(--ts-ease-in) forwards;
+}
+.ts-menu-in {
+  animation: ts-menu var(--ts-dur-dropdown) var(--ts-ease) backwards;
+  transform-origin: top;
+}
+.ts-menu-out {
+  animation: ts-menu-out var(--ts-dur-dropdown) var(--ts-ease-in) forwards;
+  pointer-events: none;
+}
+.ts-toast-in {
+  animation: ts-toast var(--ts-dur-toast) var(--ts-ease) backwards;
+}
+.ts-toast-out {
+  animation: ts-toast-out var(--ts-dur-toast) var(--ts-ease-in) forwards;
+}
+
+/* Buttons: smooth colour change + a small press. */
+.ts-press {
+  transition:
+    background-color var(--ts-dur-hover) var(--ts-ease),
+    border-color var(--ts-dur-hover) var(--ts-ease),
+    color var(--ts-dur-hover) var(--ts-ease),
+    opacity var(--ts-dur-hover) var(--ts-ease),
+    box-shadow var(--ts-dur-hover) var(--ts-ease),
+    transform 120ms var(--ts-ease);
+}
+.ts-press:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+/* Interactive cards (opt-in: <Card interactive> or className="ts-lift"). */
+@layer components {
+  .ts-lift {
+    position: relative;
+  }
+}
+.ts-lift {
+  transition:
+    transform var(--ts-dur-hover) var(--ts-ease),
+    box-shadow var(--ts-dur-hover) var(--ts-ease),
+    border-color var(--ts-dur-hover) var(--ts-ease),
+    background-color var(--ts-dur-hover) var(--ts-ease);
+}
+.ts-lift:focus-visible,
+.ts-lift:focus-within {
+  border-color: var(--ts-line-strong);
+}
+@media (hover: hover) {
+  .ts-lift:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--ts-lift-shadow);
+    border-color: var(--ts-line-strong);
+    z-index: 1;
+  }
+  .ts-lift:active {
+    transform: translateY(-1px) scale(1.002);
+  }
+}
+
+/* Left navigation: the active highlight fades in instead of snapping. */
+.ts-nav-item {
+  position: relative;
+  isolation: isolate;
+  transition:
+    background-color var(--ts-dur-hover) var(--ts-ease),
+    border-color var(--ts-dur-hover) var(--ts-ease),
+    color var(--ts-dur-hover) var(--ts-ease),
+    box-shadow var(--ts-dur-hover) var(--ts-ease);
+}
+.ts-nav-item::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.03));
+  opacity: 0;
+  transition: opacity var(--ts-dur-hover) var(--ts-ease);
+}
+[data-theme='light'] .ts-nav-item::before {
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.02));
+}
+.ts-nav-item.ts-active {
+  background: transparent;
+}
+.ts-nav-item[aria-current='page']::before {
+  opacity: 1;
+}
+
+/* Reduced motion: honour both the OS setting and the in-app toggle — no transforms, no movement. */
+[data-motion='reduced'] *,
+[data-motion='reduced'] *::before,
+[data-motion='reduced'] *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+}
+[data-motion='reduced'] .ts-lift,
+[data-motion='reduced'] .ts-press,
+[data-motion='reduced'] .ts-lift:hover,
+[data-motion='reduced'] .ts-lift:active,
+[data-motion='reduced'] .ts-press:active {
+  transform: none !important;
+}
+[data-motion='reduced'] .ts-twinkle {
+  animation: none !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .ts-lift,
+  .ts-press,
+  .ts-lift:hover,
+  .ts-lift:active,
+  .ts-press:active {
+    transform: none !important;
+  }
+  .ts-twinkle {
+    animation: none !important;
+  }
+}
+
+/* Prose for rendered notes. */
+@layer components {
+.ts-prose h1 {
+  font-size: 1.5rem;
+  font-weight: 650;
+  margin: 0.6em 0 0.3em;
+}
+.ts-prose h2 {
+  font-size: 1.2rem;
+  font-weight: 620;
+  margin: 0.8em 0 0.3em;
+}
+.ts-prose h3 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin: 0.8em 0 0.3em;
+}
+.ts-prose p {
+  margin: 0.4em 0;
+  line-height: 1.6;
+}
+.ts-prose ul,
+.ts-prose ol {
+  padding-left: 1.3em;
+  margin: 0.3em 0;
+}
+.ts-prose ul {
+  list-style: disc;
+}
+.ts-prose ol {
+  list-style: decimal;
+}
+.ts-prose a {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.ts-prose code {
+  background: var(--ts-surface-3);
+  padding: 0.1em 0.35em;
+  border-radius: 5px;
+  font-size: 0.9em;
+}
+.ts-prose blockquote {
+  border-left: 2px solid var(--ts-line-strong);
+  padding-left: 0.8em;
+  color: var(--ts-muted);
+}
+}
+
+/* Light theme: calm the starfield. */
+[data-theme='light'] .ts-starfield {
+  opacity: 0.35;
+}
+
+/* Starfield twinkles: a few tiny stars animated by the compositor (no JS frames). */
+.ts-twinkle {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  border-radius: 9999px;
+  background: var(--ts-star);
+  box-shadow: 0 0 4px 1px color-mix(in srgb, var(--ts-star) 45%, transparent);
+  opacity: 0.4;
+  will-change: opacity;
+  animation: ts-twinkle var(--ts-tw-dur, 4s) ease-in-out var(--ts-tw-delay, 0s) infinite;
+}
+
+/* Light theme: no sparkle/twinkle highlights (they read as grey smudges on a light background). */
+[data-theme='light'] .ts-twinkle {
+  display: none;
+}

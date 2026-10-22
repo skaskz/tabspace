@@ -1,0 +1,24 @@
+node_modules/
+/dist/
+coverage/
+playwright-report/
+test-results/
+*.log
+.env
+.env.*
+.DS_Store
+tests/e2e/.profile*/
+theme/dist/Cached Theme.pak
+
+# Internal review artifacts (screenshots from test runs)
+docs/qa/screenshots/
+docs/reviews/screenshots*/
+
+# Local tooling
+.claude/
+
+# Promo video: generated assets
+promo/node_modules/
+promo/out/
+promo/public/audio/
+promo/public/shots/

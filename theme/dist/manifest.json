@@ -1,0 +1,150 @@
+{
+  "manifest_version": 3,
+  "name": "Tabspace Theme",
+  "version": "1.0.0",
+  "description": "Companion monochrome deep-space theme for the Tabspace extension.",
+  "icons": {
+    "16": "images/icon-16.png",
+    "48": "images/icon-48.png",
+    "128": "images/icon-128.png"
+  },
+  "theme": {
+    "images": {
+      "theme_frame": "images/theme_frame.png",
+      "theme_toolbar": "images/theme_toolbar.png"
+    },
+    "colors": {
+      "frame": [
+        2,
+        2,
+        3
+      ],
+      "frame_inactive": [
+        5,
+        5,
+        6
+      ],
+      "frame_incognito": [
+        2,
+        2,
+        3
+      ],
+      "frame_incognito_inactive": [
+        5,
+        5,
+        6
+      ],
+      "background_tab": [
+        4,
+        4,
+        5
+      ],
+      "background_tab_inactive": [
+        6,
+        6,
+        7
+      ],
+      "background_tab_incognito": [
+        4,
+        4,
+        5
+      ],
+      "background_tab_incognito_inactive": [
+        6,
+        6,
+        7
+      ],
+      "toolbar": [
+        7,
+        7,
+        8
+      ],
+      "toolbar_text": [
+        232,
+        232,
+        232
+      ],
+      "toolbar_button_icon": [
+        200,
+        200,
+        202
+      ],
+      "tab_text": [
+        242,
+        242,
+        242
+      ],
+      "tab_background_text": [
+        142,
+        142,
+        147
+      ],
+      "tab_background_text_inactive": [
+        122,
+        122,
+        126
+      ],
+      "tab_background_text_incognito": [
+        154,
+        154,
+        158
+      ],
+      "tab_background_text_incognito_inactive": [
+        122,
+        122,
+        126
+      ],
+      "bookmark_text": [
+        214,
+        214,
+        217
+      ],
+      "omnibox_background": [
+        16,
+        16,
+        18
+      ],
+      "omnibox_text": [
+        237,
+        237,
+        237
+      ],
+      "ntp_background": [
+        5,
+        5,
+        5
+      ],
+      "ntp_header": [
+        7,
+        7,
+        8
+      ],
+      "ntp_text": [
+        237,
+        237,
+        237
+      ],
+      "ntp_link": [
+        200,
+        200,
+        202
+      ],
+      "button_background": [
+        255,
+        255,
+        255,
+        0
+      ]
+    },
+    "tints": {
+      "buttons": [
+        0,
+        0,
+        0.85
+      ]
+    },
+    "properties": {
+      "ntp_background_alignment": "center"
+    }
+  }
+}

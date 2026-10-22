@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 64" fill="none" role="img" aria-label="Tabspace">
+  <defs>
+    <linearGradient id="tsBack" x1="6" y1="10" x2="40" y2="34" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ffffff"/><stop offset="0.55" stop-color="#c9cacc"/><stop offset="1" stop-color="#8d8f93"/>
+    </linearGradient>
+    <linearGradient id="tsFront" x1="16" y1="28" x2="50" y2="54" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#9a9ca0"/><stop offset="0.5" stop-color="#5d5f63"/><stop offset="1" stop-color="#2f3033"/>
+    </linearGradient>
+    <linearGradient id="tsWord" x1="0" y1="14" x2="0" y2="50" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#b8b9bc"/>
+    </linearGradient>
+  </defs>
+  <rect x="6" y="11" width="33" height="21" rx="6" fill="url(#tsBack)"/>
+  <rect x="17" y="30" width="33" height="21" rx="6" fill="url(#tsFront)"/>
+  <path d="M51 8 Q51 17 60 17 Q51 17 51 26 Q51 17 42 17 Q51 17 51 8 Z" fill="#f4f4f5"/>
+  <text x="76" y="44" font-family="Inter, 'Segoe UI', system-ui, sans-serif" font-size="34" font-weight="500" letter-spacing="-0.5" fill="url(#tsWord)">Tabspace</text>
+</svg>

@@ -1,0 +1,44 @@
+name: Release
+
+# Push a tag like `v2.3.0` (see `npm run release`) to build, test and publish a GitHub Release.
+# Installed copies of Tabspace check the latest release and offer a one-click update.
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Check the tag matches manifest.json
+        run: |
+          TAG="${GITHUB_REF_NAME#v}"
+          MANIFEST=$(node -p "require('./public/manifest.json').version")
+          if [ "$TAG" != "$MANIFEST" ]; then echo "Tag v$TAG does not match manifest version $MANIFEST"; exit 1; fi
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm test
+      - run: npm run build
+      - name: Package
+        run: |
+          V="${GITHUB_REF_NAME}"
+          (cd dist && zip -qr "../tabspace-extension-${V}.zip" .)
+          (cd theme/dist && zip -qr "../../tabspace-theme-${V}.zip" . -x "Cached Theme.pak")
+      - name: Release notes from CHANGELOG
+        run: node scripts/release-notes.mjs "${GITHUB_REF_NAME#v}" > release-notes.md
+      - uses: softprops/action-gh-release@v2.0.8
+        with:
+          name: Tabspace ${{ github.ref_name }}
+          body_path: release-notes.md
+          files: |
+            tabspace-extension-${{ github.ref_name }}.zip
+            tabspace-theme-${{ github.ref_name }}.zip

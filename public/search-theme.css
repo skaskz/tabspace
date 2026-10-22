@@ -1,0 +1,86 @@
+/*
+ * Tabspace look for search results (opt-in). Every rule is scoped to
+ * html[data-tabspace-search="<engine>"], which search-theme.js sets only when
+ * the engine itself is in dark mode — so turning the look off (or a light-mode
+ * page) is just removing that attribute. Readability first: result columns sit
+ * on near-opaque Tabspace cards; the starfield shows only in the margins.
+ * Cards are drawn with background + box-shadow spread (no padding/margins), so
+ * the engine's layout and hit targets are unchanged. Link colours are untouched.
+ */
+
+html[data-tabspace-search] {
+  background: #050505 !important;
+  color-scheme: dark;
+}
+html[data-tabspace-search] body {
+  background: transparent !important;
+}
+
+/* ---------------- Google (www.google.com/search) ---------------- */
+html[data-tabspace-search='google'] #main,
+html[data-tabspace-search='google'] #cnt,
+html[data-tabspace-search='google'] #rcnt,
+html[data-tabspace-search='google'] #appbar,
+html[data-tabspace-search='google'] #botstuff,
+html[data-tabspace-search='google'] #footcnt,
+html[data-tabspace-search='google'] #sfooter,
+html[data-tabspace-search='google'] footer {
+  background: transparent !important;
+}
+html[data-tabspace-search='google'] #searchform,
+html[data-tabspace-search='google'] #top_nav,
+html[data-tabspace-search='google'] header[role='banner'] {
+  background: rgba(5, 5, 5, 0.88) !important;
+  backdrop-filter: blur(8px);
+}
+html[data-tabspace-search='google'] #center_col,
+html[data-tabspace-search='google'] #rhs {
+  background: rgba(14, 14, 15, 0.92) !important;
+  border-radius: 14px !important;
+  box-shadow:
+    0 0 0 14px rgba(14, 14, 15, 0.92),
+    0 0 0 15px rgba(255, 255, 255, 0.09) !important;
+}
+
+/* ---------------- DuckDuckGo (results pages, ?q=) ---------------- */
+html[data-tabspace-search='duckduckgo'] #react-layout,
+html[data-tabspace-search='duckduckgo'] .site-wrapper,
+html[data-tabspace-search='duckduckgo'] #web_content_wrapper,
+html[data-tabspace-search='duckduckgo'] [data-testid='web-vertical'] {
+  background: transparent !important;
+}
+html[data-tabspace-search='duckduckgo'] #header_wrapper,
+html[data-tabspace-search='duckduckgo'] .header-wrap,
+html[data-tabspace-search='duckduckgo'] [data-testid='header'] {
+  background: rgba(5, 5, 5, 0.88) !important;
+  backdrop-filter: blur(8px);
+}
+html[data-tabspace-search='duckduckgo'] [data-testid='mainline'],
+html[data-tabspace-search='duckduckgo'] section[data-area='mainline'],
+html[data-tabspace-search='duckduckgo'] [data-testid='sidebar'],
+html[data-tabspace-search='duckduckgo'] section[data-area='sidebar'] {
+  background: rgba(14, 14, 15, 0.92) !important;
+  border-radius: 14px !important;
+  box-shadow:
+    0 0 0 14px rgba(14, 14, 15, 0.92),
+    0 0 0 15px rgba(255, 255, 255, 0.09) !important;
+}
+
+/* ---------------- Bing (www.bing.com/search) ---------------- */
+html[data-tabspace-search='bing'] #b_content,
+html[data-tabspace-search='bing'] .b_scopebar,
+html[data-tabspace-search='bing'] #b_footer {
+  background: transparent !important;
+}
+html[data-tabspace-search='bing'] #b_header {
+  background: rgba(5, 5, 5, 0.88) !important;
+  backdrop-filter: blur(8px);
+}
+html[data-tabspace-search='bing'] #b_results,
+html[data-tabspace-search='bing'] #b_context {
+  background: rgba(14, 14, 15, 0.92) !important;
+  border-radius: 14px !important;
+  box-shadow:
+    0 0 0 14px rgba(14, 14, 15, 0.92),
+    0 0 0 15px rgba(255, 255, 255, 0.09) !important;
+}
