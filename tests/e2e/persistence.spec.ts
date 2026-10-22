@@ -22,6 +22,10 @@ test.describe('persistence', () => {
     await addTask(page, 'Review job applications');
     await addTask(page, 'Edit YouTube Short');
     await page.getByRole('checkbox', { name: 'Complete "Edit YouTube Short"' }).click();
+    // Let the write land before reloading; slow CI runners can otherwise reload mid-write.
+    await expect
+      .poll(async () => (await storageGet<{ title: string; done: boolean }[]>(context, 'ts.tasks')).find((t) => t.title === 'Edit YouTube Short')?.done)
+      .toBe(true);
     await page.reload();
     await expect(page.getByRole('button', { name: 'Open task Review job applications' })).toBeVisible();
     await context.close();
