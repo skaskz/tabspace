@@ -34,6 +34,8 @@ const test = base.extend<{ ctx: Ctx }>({
       args: [`--disable-extensions-except=${ext}`, `--load-extension=${ext}`],
     });
     const worker = context.serviceWorkers()[0] ?? (await context.waitForEvent('serviceworker'));
+    // Let the install migration stamp ts.settings first, or it can overwrite settings a test writes (slow CI).
+    await expect.poll(() => worker.evaluate(async () => ((await chrome.storage.local.get('ts.settings'))['ts.settings'] as { schemaVersion?: number } | undefined)?.schemaVersion), { timeout: 15_000 }).toBeTruthy();
     await use({ context, worker, id: new URL(worker.url()).host });
     await context.close().catch(() => undefined);
     rmSync(dir, { recursive: true, force: true, maxRetries: 5 });
