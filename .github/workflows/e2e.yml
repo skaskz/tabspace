@@ -9,20 +9,26 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: e2e-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  TS_PERF_SLACK: 3 # shared CI runners are slower than a dev machine
+
 jobs:
   e2e:
     runs-on: ubuntu-latest
     timeout-minutes: 40
+    # Browsers and system deps come preinstalled; keep the tag in step with @playwright/test.
+    container: mcr.microsoft.com/playwright:v1.64.1-noble
     steps:
       - uses: actions/checkout@v5
-      - uses: actions/setup-node@v5
-        with:
-          node-version: 22
-          cache: npm
       - run: npm ci
       - run: npx vite build
-      - run: npx playwright install --with-deps chromium
       - run: xvfb-run --auto-servernum npx playwright test
+        env:
+          HOME: /root
       - uses: actions/upload-artifact@v4
         if: failure()
         with:

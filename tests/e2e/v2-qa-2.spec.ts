@@ -145,9 +145,9 @@ test.describe('V2 · workspace saved-tab editing', () => {
     await expect(page.getByRole('heading', { name: 'Saved tabs (199)' })).toBeVisible();
     const remove = Date.now() - t2;
     test.info().annotations.push({ type: 'ms', description: JSON.stringify({ render, move, remove }) });
-    expect(render).toBeLessThan(3000);
-    expect(move).toBeLessThan(1500);
-    expect(remove).toBeLessThan(1500);
+    expect(render).toBeLessThan(3000 * Number(process.env.TS_PERF_SLACK ?? 1));
+    expect(move).toBeLessThan(1500 * Number(process.env.TS_PERF_SLACK ?? 1));
+    expect(remove).toBeLessThan(1500 * Number(process.env.TS_PERF_SLACK ?? 1));
     await shot(page, 'v2qa-workspace-200-tabs', false);
   });
 

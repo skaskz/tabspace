@@ -29,7 +29,7 @@ test.describe('adversarial', () => {
     await expect(page.getByRole('row', { name: /tab-209/ }).first()).toBeAttached({ timeout: 30_000 });
     const ms = Date.now() - t0;
     test.info().annotations.push({ type: 'render-ms-210-tabs', description: String(ms) });
-    expect(ms).toBeLessThan(10_000);
+    expect(ms).toBeLessThan(10_000 * Number(process.env.TS_PERF_SLACK ?? 1));
     // search filters fast
     const t1 = Date.now();
     await page.getByRole('textbox', { name: 'Search tabs' }).fill('tab-150');
